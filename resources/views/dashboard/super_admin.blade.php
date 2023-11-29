@@ -45,7 +45,7 @@
                     <li class="nav-item count-indicator na">          
                         
                         <a class="nav-link " href="#" id="profileDropdown">
-                            <span class="nav-profile-name">Salut, </span>
+                            <span class="nav-profile-name">Salut, Super Admin </span>
                             <span class="nav-profile-name"></span>
                         </a>
                   
@@ -75,7 +75,7 @@
                         data-toggle="dropdown" id="profileDropdown1">
                         <img src="" alt="profile" class="sidebar-profile-icon" />
                         <div>                           
-                            <div class="nav-profile-name"></div>
+                            <div class="nav-profile-name">Super Admin</div>
                             <div class="nav-profile-designation"></div>
                         </div>           
                     </a>
@@ -111,37 +111,28 @@
                         </a>
                         <div class="collapse" id="user-pages">
                             <ul class="nav flex-column sub-menu">
-                                {{-- <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a>
-                                </li> --}}
-                                <li class="nav-item"><a class="nav-link" href="{{url('entrepots')}}"> Liste des entrepôts </a>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('entrepots') }}"> Liste des entrepôts </a> </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">            
-                        <a class="nav-link" href="{{url('produits')}}">
+                        <a class="nav-link" href="">
                             <i class="mdi mdi-grid menu-icon"></i>
                             <span class="menu-title">Produits</span>
                         </a>
                     </li>
-                      <li class="nav-item">
+                      {{-- <li class="nav-item">
                         <a class="nav-link" href="{{url('categories')}}">
                             <i class="mdi mdi-grid menu-icon"></i>
                             <span class="menu-title">Categories</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="pages/apps/email.html">
                             <i class="mdi mdi-cart-outline menu-icon"></i>
                             <span class="menu-title">Ventes</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="{{url('/stocks')}}">
-                            <i class="mdi mdi-chart-pie menu-icon"></i>
-                            <span class="menu-title">Stocks</span>
-                        </a>
-                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="">
                             <i class="mdi mdi-format-list-checks menu-icon"></i>

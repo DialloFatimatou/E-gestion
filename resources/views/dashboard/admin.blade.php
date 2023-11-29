@@ -108,7 +108,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <div class="sidebar-title">Web application</div>
                         <a class="nav-link" data-toggle="collapse" href="#user-pages" aria-expanded="false"
                             aria-controls="user-pages">
@@ -118,21 +118,20 @@
                         </a>
                         <div class="collapse" id="user-pages">
                             <ul class="nav flex-column sub-menu">
-                                {{-- <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a>
-                                </li> --}}
                                 <li class="nav-item"><a class="nav-link" href="{{url('entrepots')}}"> Liste des entrepôts </a>
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item">            
-                        <a class="nav-link" href="{{url('produits')}}">
+                    </li> --}}
+                    <li class="nav-item"> 
+                        <div class="sidebar-title">Web application</div>           
+                        <a class="nav-link" href="{{ route('produits') }}">
                             <i class="mdi mdi-grid menu-icon"></i>
                             <span class="menu-title">Produits</span>
                         </a>
                     </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{url('categories')}}">
+                        <a class="nav-link" href="{{ route('categories') }}">
                             <i class="mdi mdi-grid menu-icon"></i>
                             <span class="menu-title">Categories</span>
                         </a>
