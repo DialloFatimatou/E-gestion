@@ -22,7 +22,7 @@
         <!-- .navbar -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper align-items-center">
-                <a class="navbar-brand brand-logo" href="{{route("homeAdmin",['nom' =>Auth::user()->nom] )}}">
+                <a class="navbar-brand brand-logo" href="{{route("homeAdmin")}}">
                     <img src="{{ asset('images/logo.png')}}" alt="logo" /></a>
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <span class="mdi mdi-sort-variant"></span>
@@ -30,7 +30,12 @@
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav mr-lg-2">
-                </br></br></br></br>
+                    <li class="nav-item d-none d-sm-block dropdown arrow-none">
+                        <button type="button" class="btn btn-success btn-icon-text dropdown-toggle" data-toggle="dropdown" id="profileDropdown6">
+                            {{Auth::user()->entrepots->nomEntrepot}}
+                        </button>
+                      
+                    </li>
                     <li class="nav-item nav-search d-none d-sm-block">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -103,26 +108,11 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <div class="sidebar-title">Main</div>
-                        <a class="nav-link" href="{{route("homeAdmin",['nom' =>Auth::user()->nom] )}}">
+                        <a class="nav-link" href="{{route("homeAdmin")}}">
                             <i class="mdi mdi-cards-variant menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <div class="sidebar-title">Web application</div>
-                        <a class="nav-link" data-toggle="collapse" href="#user-pages" aria-expanded="false"
-                            aria-controls="user-pages">
-                            <i class="mdi mdi-chart-pie menu-icon"></i>
-                            <span class="menu-title">Entrepôts</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="user-pages">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{url('entrepots')}}"> Liste des entrepôts </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li> --}}
                     <li class="nav-item"> 
                         <div class="sidebar-title">Web application</div>           
                         <a class="nav-link" href="{{ route('produits') }}">
@@ -142,24 +132,24 @@
                             <span class="menu-title">Ventes</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="{{url('/stocks')}}">
-                            <i class="mdi mdi-chart-pie menu-icon"></i>
-                            <span class="menu-title">Stocks</span>
-                        </a>
-                    </li> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('commande')}}">
                             <i class="mdi mdi-format-list-checks menu-icon"></i>
                             <span class="menu-title">Commandes</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="">
-                            <i class="mdi mdi-account menu-icon"></i>
-                            <span class="menu-title">Utilisateurs</span>
+                            <i class="mdi mdi-chart-pie menu-icon"></i>
+                            <span class="menu-title">Approvisionnements</span>
                         </a>
-                    </li> --}}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <i class="mdi mdi-truck menu-icon"></i>
+                            <span class="menu-title">livraisons</span>
+                        </a>
+                    </li>
                 </ul>
                 <div class="designer-info">
                     Crée par: <a href="https://www.bootstrapdash.com/" target="_blank">Fatma</a>

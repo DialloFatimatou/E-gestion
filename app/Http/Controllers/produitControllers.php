@@ -6,6 +6,8 @@ use App\Models\categories;
 use App\Models\entrepots;
 use Illuminate\Http\Request;
 use App\Models\produits;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class produitControllers extends Controller
 {
@@ -61,18 +63,17 @@ public function deletecategorie($id){
 }
 
 //   //Selection d'un produit dans la BD en fonction de l'ID     
-//   public function select($id){
-//        $produit = DB::table('produits')->where('id','=',$id)->first();
-//        // $affiche_taille_produit = DB::table('taille_produits')->where('ref_produit','=',$ref_produit)->get();
-//        return view('gerant.detail-produit',[
-//             'produit'=>$produit,
-//             // 'affiche_taille_produit'=>$affiche_taille_produit
-//          ]);
-//   }
+  public function select($id){
+       $produit = produits::find($id);
+       return view('produit.detail_prod',[
+            'produit'=>$produit,
+         ]);
+  }
 
 //Enregistre un produit dans la DB
 public function AjoutProduit(Request $request)
 {
+    
      if ($request->hasFile('image')) {
           $image = $request->file('image');
           $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -88,7 +89,7 @@ public function AjoutProduit(Request $request)
      $produit-> prixProduit = $request-> prix;
      $produit-> quantiteProduit = $request-> qtite;
      $produit-> categorie_id = $request-> categorie;
-     $produit->entrepot_id= $request->entrepot;
+     $produit->entrepot_id=  Auth::user()->entrepot_id;
      $produit->save();
 
      return back()->with("status", "Votre produit a été  enregistré avec succés");
@@ -101,6 +102,7 @@ public function deleteProduit($id){
      return back()->with("status", "Votre produit a été  supprimé avec succés");
 }
 public function updateProduit($id, Request $request){
+  
      if ($request->hasFile('image')) {
           $image = $request->file('image');
           $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -114,7 +116,7 @@ public function updateProduit($id, Request $request){
      $produit-> prixProduit = $request-> prix;
      $produit-> quantiteProduit = $request-> qtite;
      $produit-> categorie_id = $request-> categorie;
-     $produit->entrepot_id= $request->entrepot;
+     $produit->entrepot_id=  Auth::user()->entrepot_id;
      
      $produit->update();
      return back()->with("status", "Votre produit a été  modifiée avec succés");
@@ -124,11 +126,12 @@ public function updateProduit($id, Request $request){
 // Affichage des produits de la station de l'utilisateur
 public function homeUser()
 {  
-return view('home.user');
+     $affiche_produit = produits::all();
+     return view('home.user',['affiche_produit' => $affiche_produit]);
 }
 public function homeAdmin()
 {
-return view('home.admin');
+     return view('home.admin');
 }
 
 }

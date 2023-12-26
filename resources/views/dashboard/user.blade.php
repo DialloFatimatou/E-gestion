@@ -26,14 +26,19 @@
         <!-- .navbar -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper align-items-center">
-                <a class="navbar-brand brand-logo" href="{{route("homeUser",['nom' =>Auth::user()->nom] )}}"><img src="{{ asset('images/logo.png')}}"alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="{{route("homeUser",['entrepot' => Auth::user()->entrepots->nomEntrepot, 'nom' => Auth::user()->nom] )}}"><img src="{{ asset('images/logo.png')}}"alt="logo" /></a>
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <span class="mdi mdi-sort-variant"></span>
                 </button>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav mr-lg-2">
-                </br></br></br></br>
+                    <li class="nav-item d-none d-sm-block dropdown arrow-none">
+                        <button type="button" class="btn btn-success btn-icon-text dropdown-toggle" data-toggle="dropdown" id="profileDropdown6">
+                            {{Auth::user()->entrepots->nomEntrepot}}
+                        </button>
+                      
+                    </li>
                     <li class="nav-item nav-search d-none d-sm-block">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -56,21 +61,24 @@
                     </li>
                     {{-- panier --}}
                  
-                     {{-- <li class="nav-item dropdown count-indicator arrow-none">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center"
-                           href="" >
-                            <span class="count bg-success"></span>
-                            <i class="mdi mdi-cart-outline" style="font-size: 35px; "></i>
-                        </a>
-                    </li> --}}
-                  
+                    @if(Session::has('cart'))
                     <li class="nav-item dropdown count-indicator arrow-none">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center"
-                           href="" >
-                            <span class="count bg-success">0</span>
-                            <i class="mdi mdi-cart-outline" style="font-size: 35px; "></i>
-                        </a>
-                    </li>
+                       <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center"
+                          href="{{url('/panier')}}" >
+                           <span class="count bg-success">{{count(Session::get('topCart') )}}</span>
+                           <i class="mdi mdi-cart-outline" style="font-size: 35px; "></i>
+                       </a>
+                   </li>
+                   @else
+                   <li class="nav-item dropdown count-indicator arrow-none">
+                       <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center"
+                          href="{{url('/panier')}}" >
+                           <span class="count bg-success">0</span>
+                           <i class="mdi mdi-cart-outline" style="font-size: 35px; "></i>
+                       </a>
+                   </li>
+
+                @endif
 
               
                 </ul>
@@ -107,7 +115,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <div class="sidebar-title">Main</div>
-                        <a class="nav-link" href="{{route("homeUser",['nom' =>Auth::user()->nom] )}}">
+                        <a class="nav-link" href="{{route("homeUser")}}">
                             <i class="mdi mdi-cards-variant menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>

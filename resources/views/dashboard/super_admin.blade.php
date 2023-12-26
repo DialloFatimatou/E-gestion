@@ -73,7 +73,7 @@
                 <div class="dropdown sidebar-profile-dropdown">
                     <a class="dropdown-toggle d-flex align-items-center justify-content-between" href="#"
                         data-toggle="dropdown" id="profileDropdown1">
-                        <img src="" alt="profile" class="sidebar-profile-icon" />
+                        <img src="{{asset('images/users/IMG-20201228-WA0190.jpg') }}" alt="profile" class="sidebar-profile-icon" />
                         <div>                           
                             <div class="nav-profile-name">Super Admin</div>
                             <div class="nav-profile-designation"></div>
@@ -115,18 +115,12 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">            
-                        <a class="nav-link" href="">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('allApprovi') }}">
                             <i class="mdi mdi-grid menu-icon"></i>
-                            <span class="menu-title">Produits</span>
+                            <span class="menu-title">Approvisionnements</span>
                         </a>
                     </li>
-                      {{-- <li class="nav-item">
-                        <a class="nav-link" href="{{url('categories')}}">
-                            <i class="mdi mdi-grid menu-icon"></i>
-                            <span class="menu-title">Categories</span>
-                        </a>
-                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="pages/apps/email.html">
                             <i class="mdi mdi-cart-outline menu-icon"></i>
@@ -137,6 +131,18 @@
                         <a class="nav-link" href="">
                             <i class="mdi mdi-format-list-checks menu-icon"></i>
                             <span class="menu-title">Commandes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('toutesLivraison') }}">
+                            <i class="mdi mdi-account menu-icon"></i>
+                            <span class="menu-title">Livraisons</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('allChauffeur') }}">
+                            <i class="mdi mdi-truck menu-icon"></i>
+                            <span class="menu-title">Chauffeurs</span>
                         </a>
                     </li>
                     <li class="nav-item">

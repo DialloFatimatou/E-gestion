@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\fonctions;
-use App\Models\stations;
+use App\Models\entrepots;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email',
         'password',
         'fonction_id',
+        'entrepot_id',
         
     ];
 
@@ -53,6 +54,10 @@ class User extends Authenticatable
     public function fonctions()
     {
         return $this->belongsTo(fonctions::class, 'fonction_id');
+    }
+    public function entrepots()
+    {
+        return $this->belongsTo(entrepots::class, 'entrepot_id');
     }
 
    

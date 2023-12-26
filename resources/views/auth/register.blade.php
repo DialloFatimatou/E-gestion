@@ -41,7 +41,7 @@ Register
                                                 <th scope="col" style="font-weight: bold;">Prénom</th>
                                                 <th scope="col" style="font-weight: bold;">Contact</th>
                                                 <th scope="col" style="font-weight: bold;">Email</th>
-                                                <th scope="col" style="font-weight: bold;">Rôle</th>
+                                                <th scope="col" style="font-weight: bold;">Fonction</th>
                                                 <th scope="col" style="font-weight: bold;"></th>
                                                 <th style="font-weight: bold;" class="text-center">
                                                     Action
@@ -145,9 +145,9 @@ Register
                                     <input type="file" class="form-control" id="inputGroupFile01" name="image">                      
                                 </div>
                                 <div class="mb-3">
-                                    <label class="fw-bold form-label">Rôle</label>
+                                    <label class="fw-bold form-label">Fonction</label>
                                     <select class="form-select" id="inputGroupSelect01" name="fonction">
-                                        <option selected disabled>Selectionner un rôle</option>
+                                        <option selected disabled>Choix de la fonction</option>
                                         @foreach($fonctions as $fonction)
                                         <option value="{{$fonction->id}}">{{$fonction->nomFonction}}</option>
                                         @endforeach
@@ -164,6 +164,15 @@ Register
                                     <input id="confirm_password" class="form-control" name="confirm_password" type="password">
                                 </div>
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Entrepôt</label>
+                            <select class="form-select" id="inputGroupSelect01" name="entrepot">
+                                <option selected>Choix d'un Entrepôt</option>
+                                @foreach ($entrepots as $affiche)
+                                 <option value="{{ $affiche->id }}"><a href="entrepots.php">{{ $affiche->nomEntrepot }}</a></option>
+                               @endforeach
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

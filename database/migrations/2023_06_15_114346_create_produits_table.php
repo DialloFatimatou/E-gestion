@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('descriptionProduit');
             $table->integer('prixProduit');
             $table->integer('quantiteProduit');
+            $table->integer('alert_stock')->default('100');
             $table->string('imageProduit');
             $table->timestamps();
         });

@@ -11,13 +11,13 @@ class produits extends Model
 {
     use HasFactory;
 
-    public function categories()
+    public function categorie()
     {
         return $this->belongsTo(categories::class, 'categorie_id');
     }
 
-    public function stations()
+    public function entrepots()
     {
-        return $this->belongsTo(stations::class, 'station_id');
+        return $this->belongsTo(entrepots::class, 'entrepot_id');
     }
 }

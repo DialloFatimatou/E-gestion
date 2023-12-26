@@ -2,64 +2,84 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\entrepots;
 use App\Models\produits;
 use App\Models\stations;
 use App\Models\ventes;
 use App\Models\vente_produits;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class venteControllers extends Controller
 {
-    public function panierVente(Request $request, string $station, string $nom, int $id)
+    // public function panierVente(Request $request, string $station, string $nom, int $id)
+    // {
+    //     $produit=produits::find($id);
+    //     Cart::add(array(
+    //         'id' => $produit->id,
+    //         'name' => $produit->nomProduit,
+    //         'price' => $produit->prixProduit,
+    //         'qty' => $request->qtite,
+    //         'attributes'=>array()
+    //     ));
+    //     session_start();
+    //     return redirect()->route('ventePanier', ['station'=>$station, 'nom'=>$nom]);
+    // }
+
+    // public function ventePanier(string $station, string $nom){
+    //     $produits=produits::all();
+    //     $panier_cmd=Cart::content();
+    //     return view('vente.panierVente', compact(['panier_cmd','produits']));
+    // }
+   
+
+    public function registerVenteProduit(Request $request)
     {
-        $produit=produits::find($id);
-        Cart::add(array(
-            'id' => $produit->id,
-            'name' => $produit->nomProduit,
-            'price' => $produit->prixProduit,
-            'qty' => $request->qtite,
-            'attributes'=>array()
-        ));
-        session_start();
-        return redirect()->route('ventePanier', ['station'=>$station, 'nom'=>$nom]);
-    }
 
-    public function ventePanier(string $station, string $nom){
-        $produits=produits::all();
-        $panier_cmd=Cart::content();
-        return view('vente.panierVente', compact(['panier_cmd','produits']));
-    }
+        $cart = Session::get('topCart');
 
-    public function registerVenteProduit(Request $request, string $station, string $nom){
-
-        $cart = Cart::content();
-
-        $vente=new ventes();
+        
+        // dd($cart);
+        $vente = new ventes();
         $vente->save();
 
-        foreach($cart as $i){
-            $venteProduit=new vente_produits();
-                $venteProduit-> quantiteVente = $request-> qtite[$i->id];
-                $venteProduit-> produit_id = $request-> id[$i->id];
-                $venteProduit-> vente_id = $vente->id;
-            $venteProduit->save();
+        foreach ($cart as $i) {
+            if (isset($i['produit_id'])) {
             
-        };
-        Cart::destroy($cart);
+                $venteProduit = new vente_produits();
 
-        return redirect()->route('homeUser',['station'=>$station,'nom'=>$nom]);
+                $produit=produits::find($request->id[$i['produit_id']]);
+                $produit=$produit->id;
+                $venteProduit->quantiteVente = $request->qty[$produit];
+                $venteProduit->produit_id = $request->id[$produit];
+                $venteProduit->vente_id = $vente->id;
+
+                $venteProduit->save();
+            }
+        };
+        
+        foreach ($cart as $i) {
+            $produit = produits::find($request->id[$i['produit_id']]);
+            $produit->quantiteProduit = ($produit->quantiteProduit - $request->qty[$i['produit_id']]);
+            $produit->update();
+        };
+        // $oldCart = Session::has('topCart') ? new Cart($cart) : null;
+
+        return redirect()->route('homeUser');
     }
 
-    public function allVente(string $station, string $nom){
-        $stat = stations::all();
+
+    public function allVente(string $station, string $nom)
+    {
+        $stat = entrepots::all();
         $produit = produits::all();
         $vente = ventes::all();
         $vente_prod = vente_produits::all();
 
-        foreach($stat as $var){
-            if($var->nomStation == $station) $station_id = $var->id;
+        foreach ($stat as $var) {
+            if ($var->nomStation == $station) $station_id = $var->id;
         }
-        return view('vente.allVente', compact(['station_id','stat','vente','produit','vente_prod']));
+        return view('vente.allVente', compact(['station_id', 'stat', 'vente', 'produit', 'vente_prod']));
     }
 }

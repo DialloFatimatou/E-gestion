@@ -21,17 +21,6 @@
                         <div class="d-sm-flex justify-content-between align-items-center">
                             <h4 class="card-title">Produits</h4>
                             <div class="d-flex">
-                                {{-- <li class="nav-item nav-search d-none d-sm-block">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="search">
-                                                <i class="mdi mdi-magnify"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="search" aria-label="search"
-                                            aria-describedby="search" id="myInput">
-                                    </div>
-                                </li> --}}
                                 <button type="button" class="btn btn-outline-primary btn-icon-text my-2 my-lg-0">
                                     <i class="mdi mdi-printer text-extra-small btn-icon-prepend"></i>
                                     Imprimer
@@ -41,8 +30,7 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <span class="pr-2">Dashboard</span><span class="pr-2"><i
-                                    class="mdi mdi-chevron-right"></i></span><span>Produits </span>
+                            <i class="mdi mdi-chevron-right"></i></span><span>Listes des Produits </span>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
@@ -55,47 +43,44 @@
                                                 <th scope="col" style="font-weight: bold;">Image</th>
                                                 <th scope="col" style="font-weight: bold;">Libelle</th>
                                                 <th scope="col" style="font-weight: bold;">Prix</th>
-                                                {{-- <th scope="col" style="font-weight: bold;">Quantite</th> --}}
+                                                <th scope="col" style="font-weight: bold;">Quantite</th>
                                                 <th scope="col" style="font-weight: bold;">Catégorie</th>
-                                                <th style="font-weight: bold;"></th>
                                                 <th style="font-weight: bold;" class="text-center">
                                                     Action
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody id="myTable">
-                                     
+                                        @foreach ($affiche_produit as $item)
                                             <tr>
                                                 <td>{{$increment}}</td>
                                                 <td class="py-1">
-                                                    <div class="d-flex align-items-center"><img  src="" class="product-icon"alt="image">
+                                                    <div class="d-flex align-items-center"><img  src="{{asset('images/produits/'.$item->imageProduit)}}" class="product-icon"alt="image">
                                                     </div>
                                                 </td>
                                                 <td>
-                                                   
+                                                    {{$item->nomProduit}}
                                                 </td>
                                                 <td>
-                                                   
-                                                </td>
-                                                {{-- <td>
-                                                    {{$item->quantite}}
-                                                </td> --}}
-
-                                                <td>
-                                                   
+                                                    {{$item->prixProduit}}
                                                 </td>
                                                 <td>
-
+                                                    {{$item->quantiteProduit}}
                                                 </td>
-                                                
+                                                <td>
+                                                    {{$item->categorie->nomCategorie}}
+                                                </td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-outline-primary btn-rounded btn-success" href="">Voir</a>    
-                                                    <a class="btn btn-outline-primary btn-rounded btn-secondary" href="">Ajouter au panier</a>       
+                                                    <form class="mb-grid-gutter" method="post" action="{{route('addtocart',[$item->id])}}">
+                                                    <a class="btn btn-outline-primary btn-rounded btn-info" href="{{ route('select_prod',$item->id)}}">Voir</a> 
+                                                        @method('put')
+                                                        @csrf
+                                                        <button class="btn btn-outline-primary btn-rounded btn-secondary">Ajouter au panier</button>  
+                                                    </form>     
                                                 </td>
                                             </tr>
                                             <input type="hidden" {{$increment++}}>
-                                       
-                                            
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -111,18 +96,3 @@
 </div>       
 @endsection
 
-@section('script')
-<script src="{{asset('js/jquery.min.js')}}"></script>
-<script src="{{asset('js/filtre.js')}}"></script> 
-<script> 
-$(document).ready(function () {
-    $("#myInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-});
-
-</script> 
-@endsection

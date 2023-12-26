@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\fonctions;
-use App\Models\stations;
+use App\Models\entrepots;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -23,8 +23,9 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $fonctions=fonctions::All();
+        $entrepots=entrepots::All();
         $users=User::all();
-        return view('auth.register',compact(['fonctions','users']));
+        return view('auth.register',compact(['fonctions','users','entrepots']));
     }
 
     /**
@@ -43,6 +44,7 @@ class RegisteredUserController extends Controller
             'prenom' => ['string', 'max:55'],
             'contact' => ['string', 'max:10'],
             'fonction' => ['int'],
+            'entrepot' => ['int'],
             'email' => ['string', 'email', 'max:60', 'unique:'.User::class],
             'password' => ['string','max:20'],
         ]);
@@ -53,6 +55,7 @@ class RegisteredUserController extends Controller
             'contact' => $request->contact,
             'photo' => $imageName,
             'fonction_id' => $request->fonction,
+            'entrepot_id' => $request->entrepot,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

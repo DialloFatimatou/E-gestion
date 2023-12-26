@@ -19,10 +19,12 @@
                 <div class="d-sm-flex justify-content-between align-items-center">
                     <h4 class="card-title">Produits</h4>
                     <div class="d-flex">
-                        <button type="button" class="btn btn-outline-primary btn-icon-text my-2 my-lg-0">
-                            <i class="mdi mdi-printer text-extra-small btn-icon-prepend"></i>
-                            Imprimer
-                        </button>
+                        <form action="{{route("pdfProduit")}}">
+                            <button type="submit" class="btn btn-outline-primary btn-icon-text my-2 my-lg-0">
+                                <i class="mdi mdi-printer text-extra-small btn-icon-prepend"></i>
+                                Imprimer
+                            </button>
+                        </form>
                         <button type="button" class="btn btn-primary ml-3  my-2 my-lg-0" data-bs-toggle="modal"
                             data-bs-target="#exampleModalarticle">Ajouter </button>
                     </div>
@@ -51,9 +53,8 @@
                                         <th scope="col" style="font-weight: bold;">Quantite</th>
                                         <th scope="col" style="font-weight: bold;">Alert_Stock</th>
                                         <th scope="col" style="font-weight: bold;">Catégorie</th>
-                                        <th scope="col" style="font-weight: bold;">Entrepôt</th>
                                         <th style="font-weight: bold;" class="text-center">
-                                            Action
+                                         Action
                                         </th>
                                         <th style="font-weight: bold;"></th>
                                     </tr>
@@ -69,7 +70,7 @@
                                             <td>{{ $increment }}</td>
                                             <td class="py-1">
                                                 <div class="d-flex align-items-center"><img
-                                                        src="{{ asset('images/produits/' . $result->image) }}"
+                                                        src="{{ asset('images/produits/' . $result->imageProduit) }}"
                                                         class="product-icon"alt="image">
                                                 </div>
                                             </td>
@@ -86,8 +87,8 @@
                                                 {{ $result->quantiteProduit }}
                                             </td>
                                             <td>
-                                                @if ($result->quantite <= 40)
-                                                    <span class="badge badge-danger">Faible stock >
+                                                @if ($result->quantiteProduit <= 40)
+                                                    <span class="badge badge-danger"> <
                                                         {{ $result->alert_stock }}</span>
                                                 @else
                                                     <span class="badge badge-success">
@@ -96,13 +97,12 @@
                                             </td>
 
                                             <td>
-                                                {{ $result->categories->nomCategorie}}
-                                            </td>
-                                            <td>
-                                                {{-- {{ $result->entrepots->nomEntrepot }} --}}
+                                                {{ $result->categorie->nomCategorie}}
                                             </td>
                                             <td class="text-center">
                                                 <button data-bs-target="#editProduit{{ $result->id }}" class="btn btn-outline-primary btn-rounded btn-success" data-bs-toggle="modal">Modifier</button>
+                                            </td>
+                                            <td class="text-center">
                                                 <button data-bs-target="#deleteProduit{{ $result->id }}" class="btn btn-outline-primary btn-rounded btn-danger" data-bs-toggle="modal">Supprimer</button>
                                             </td>
                                         </tr>
@@ -120,7 +120,7 @@
                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body p-3">
-                                                <form method="post" action="{{ route('update_produit/'. $result->id) }}" enctype="multipart/form-data">
+                                                <form method="post" action="{{ route('update_produit', ['id' => $result->id]) }}" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="mb-3">
@@ -131,18 +131,17 @@
                                                         <label class=" fw-bold form-label">Prix</label>
                                                         <input type="text" name="prix" class="form-control " value="{{ $result->prixProduit }}" required>
                                                     </div>
-                            
+                                                    <div class="mb-3">
+                                                        <label class=" fw-bold form-label">Quantité</label>
+                                                        <input type="text" name="qtite" class="form-control " required>
+                                                    </div>
                                                     <div class="mb-3">
                                                         <label class="fw-bold form-label">Image</label>
                                                         <input type="file" name="image" class="form-control " value="{{ $result->imageProduit }}" required>
                                                     </div>
-                                                    {{-- <div class="mb-3">
-                                                        <label class="fw-bold form-label">Alert Stock</label>
-                                                        <input type="text" name="alert_stock" class="form-control" required>
-                                                    </div> --}}
                                                     <div class="mb-3">
                                                         <label class="fw-bold form-label">Description</label>
-                                                        <textarea name="desc" id="" cols="30" rows="2" class="form-control "></textarea>
+                                                        <textarea name="desc" id="" cols="30" rows="2" class="form-control " value="{{ $result->descriptionProduit }}"></textarea>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="fw-bold form-label">Categorie</label>
@@ -151,16 +150,6 @@
                                                             @foreach ($affiche_categorie as $affiche)
                                                                 <option value="{{ $affiche->id }}"><a
                                                                         href="categories.php">{{ $affiche->nomCategorie }}</a></option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="fw-bold form-label">Entrepôt</label>
-                                                        <select class="form-select d-inline" aria-label="Default select example" name="entrepot">
-                                                            <option selected disabled>Selectionner un Entrepôt</option>
-                                                            @foreach ($entrepots as $affiche)
-                                                                <option value="{{ $affiche->id }}"><a
-                                                                        href="entrepots.php">{{ $affiche->nomEntrepot }}</a></option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -188,8 +177,7 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body p-3">
-                                                        <form method="POST"
-                                                            action="{{ route('delete_produit/' . $result->id) }}">
+                                                        <form method="post" action="{{ route('delete_produit', ['id' => $result->id]) }}">
                                                             @csrf
                                                             @method('DELETE')
                                                             <p>Êtes-vous sûr de vouloir supprimer cet
@@ -261,16 +249,6 @@ aria-labelledby="exampleModalLabel1" aria-hidden="true">
                         @foreach ($affiche_categorie as $affiche)
                             <option value="{{ $affiche->id }}"><a
                                     href="categories.php">{{ $affiche->nomCategorie }}</a></option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="fw-bold form-label">Entrepôt</label>
-                    <select class="form-select d-inline" aria-label="Default select example" name="entrepot">
-                        <option selected disabled>Selectionner un Entrepôt</option>
-                        @foreach ($entrepots as $affiche)
-                            <option value="{{ $affiche->id }}"><a
-                                    href="entrepot.php">{{ $affiche->nomEntrepot }}</a></option>
                         @endforeach
                     </select>
                 </div>
